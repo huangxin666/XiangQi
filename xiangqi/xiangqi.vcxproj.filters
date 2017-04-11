@@ -42,6 +42,9 @@
     <ClInclude Include="AI\ChessBoard.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="AI\Chess.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="xiangqi.cpp">
@@ -57,6 +60,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="AI\ChessBoard.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="AI\Chess.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

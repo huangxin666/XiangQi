@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="AI\defines.h" />
     <ClInclude Include="AI\ChessBoard.h" />
+    <ClInclude Include="AI\Chess.h" />
     <ClInclude Include="ChildView.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Resource.h" />
@@ -198,6 +199,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AI\ChessBoard.cpp" />
+    <ClCompile Include="AI\Chess.cpp" />
     <ClCompile Include="ChildView.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="stdafx.cpp">

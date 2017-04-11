@@ -9,8 +9,8 @@ enum CHESSTYPE
     CHESSTYPE_KING,
     CHESSTYPE_ADVISER,
     CHESSTYPE_ELEPHANT,
-    CHESSTYPE_CHARIOT,
     CHESSTYPE_HORSE,
+    CHESSTYPE_CHARIOT,
     CHESSTYPE_CANNON,
     CHESSTYPE_SOLDIER,
     CHESSTYPE_COUNT
@@ -21,11 +21,9 @@ enum CHESSTYPE
 
 #define CHESS_COLOR_BLACK 1
 #define CHESS_COLOR_RED   0
-struct Chess
-{
-    int8_t type;
-    int8_t color;
-};
+
+
+
 
 struct Position
 {
@@ -37,7 +35,10 @@ Position operator-(const Position &a,const Position &b)
     return Position{ a.row - b.row,a.col - b.col };
 }
 
-
+bool operator==(const Position &a, const Position &b)
+{
+    return a.row == b.row && a.col == b.col;
+}
 
 #endif // !__AI_DEFINES_H__
 

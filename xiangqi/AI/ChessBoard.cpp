@@ -12,31 +12,19 @@ ChessBoard::~ChessBoard()
 
 void ChessBoard::initBoard()
 {
-    for (int i = 0; i < BOARD_ROW_MAX + 2; ++i) 
+    for (int i = 0; i < BOARD_ROW_MAX; ++i)
     {
-        for (int j = 0; j < BOARD_COL_MAX + 2; ++j)
+        for (int j = 0; j < BOARD_COL_MAX; ++j)
         {
-            if (i == 0 || j == 0 || i == BOARD_ROW_MAX+1 || j == BOARD_COL_MAX+1)
+            if (chessInitPos[i][j])
             {
-                board[i][j] = Chess{-1,-1};
+                board[i][j].type = chessInitPos[i][j];
+                board[i][j].info = new ChessInfo;
+                board[i][j].info->flex = chessInitFlex[board[i][j].type];
+                board[i][j].state = j > 5 ? CHESS_COLOR_RED : CHESS_COLOR_BLACK;
             }
-            board[i][j] = Chess{ 0,0 };
         }
     }
-    board[1][1] = board[1][9] = Chess{ CHESSTYPE_CHARIOT,CHESS_COLOR_BLACK };
-    board[10][1] = board[10][9] = Chess{ CHESSTYPE_CHARIOT,CHESS_COLOR_RED };
-    board[1][2] = board[1][8] = Chess{ CHESSTYPE_HORSE,CHESS_COLOR_BLACK };
-    board[10][2] = board[10][8] = Chess{ CHESSTYPE_HORSE,CHESS_COLOR_RED };
-    board[1][3] = board[1][7] = Chess{ CHESSTYPE_ELEPHANT,CHESS_COLOR_BLACK };
-    board[10][3] = board[10][7] = Chess{ CHESSTYPE_ELEPHANT,CHESS_COLOR_RED };
-    board[1][4] = board[1][6] = Chess{ CHESSTYPE_ADVISER,CHESS_COLOR_BLACK };
-    board[10][4] = board[10][6] = Chess{ CHESSTYPE_ADVISER,CHESS_COLOR_RED };
-    board[1][5]  = Chess{ CHESSTYPE_KING,CHESS_COLOR_BLACK };
-    board[10][5]  = Chess{ CHESSTYPE_KING,CHESS_COLOR_RED };
-    board[3][2] = board[3][8] = Chess{ CHESSTYPE_CANNON,CHESS_COLOR_BLACK };
-    board[8][2] = board[8][8] = Chess{ CHESSTYPE_CANNON,CHESS_COLOR_RED };
-    board[4][1] = board[4][3] = board[4][5] = board[4][7] = board[4][9] = Chess{ CHESSTYPE_SOLDIER,CHESS_COLOR_BLACK };
-    board[7][1] = board[7][3] = board[7][5] = board[7][7] = board[7][9] = Chess{ CHESSTYPE_SOLDIER,CHESS_COLOR_RED };
 }
 
 int ChessBoard::getAvailableMove(Position pos, Position * result)
@@ -63,6 +51,11 @@ int ChessBoard::getAvailableMove(Position pos, Position * result)
     return 0;
 }
 
+uint8_t ChessBoard::getFlexibility(Position pos)
+{
+
+}
+
 bool ChessBoard::checkMove(Position from, Position to)
 {
     if (to.row > BOARD_ROW_MAX || to.row < 1 || to.col > BOARD_COL_MAX || to.col < 1)//³ö½ç
@@ -73,7 +66,7 @@ bool ChessBoard::checkMove(Position from, Position to)
     switch (board[from.row][from.col].type)
     {
     case CHESSTYPE_KING:
-        if (board[from.row][from.col].color == CHESS_COLOR_RED)
+        if (board[from.row][from.col].state == CHESS_COLOR_RED)
         {
 
         }
@@ -102,9 +95,49 @@ bool ChessBoard::moveChess(Position from, Position to)
     {
         return false;
     }
-    board[to.row][to.col] = board[from.row][from.col];
-    board[from.row][from.col] = { 0,0 };  
+    board[to.row][to.col].info = board[from.row][from.col].info;
+    board[to.row][to.col].type = board[from.row][from.col].type;
+    board[to.row][to.col].state = board[from.row][from.col].state;
+
+    board[from.row][from.col].type = 0;
+    board[from.row][from.col].info = NULL;
+    board[from.row][from.col].state = 0;
     return true;
 }
 
 
+uint8_t ChessBoard::chessFlexBase[CHESSTYPE_COUNT] = {
+    0,
+    4,
+    4,
+    4,
+    8,
+    17,
+    17,
+    3
+};
+
+uint8_t chessInitFlex[CHESSTYPE_COUNT] = {
+    0,
+    25,
+    25,
+    50,
+    25,
+    11,
+    64,
+    33
+};
+
+uint8_t ChessBoard::chessInitPos[BOARD_ROW_MAX][BOARD_COL_MAX] =
+{
+    5,4,3,2,1,2,3,4,5,
+    0,0,0,0,0,0,0,0,0,
+    0,6,0,0,0,0,0,6,0,
+    7,0,7,0,7,0,7,0,7,
+    0,0,0,0,0,0,0,0,0,
+    0,0,0,0,0,0,0,0,0,
+    7,0,7,0,7,0,7,0,7,
+    0,6,0,0,0,0,0,6,0,
+    0,0,0,0,0,0,0,0,0,
+    5,4,3,2,1,2,3,4,5,
+};
