@@ -5,6 +5,7 @@
 struct ChessInfo
 {
     int8_t flex;//»ú¶¯ÐÔ 0-100
+    bitset<90> moveMap;
 };
 
 class Chess
@@ -38,10 +39,11 @@ public:
         return type == CHESSTYPE_EMPTY;
     };
 
+
 public:
     ChessInfo *info;
     uint8_t type;
-    uint8_t state;
+    int8_t state;
 };
 
 #endif
