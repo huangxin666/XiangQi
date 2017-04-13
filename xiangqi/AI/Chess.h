@@ -11,7 +11,7 @@ struct ChessInfo
 class Chess
 {
 public:
-    Chess() :type(0), info(NULL)
+    Chess() :type(0), info(NULL),state(0)
     {
 
     }

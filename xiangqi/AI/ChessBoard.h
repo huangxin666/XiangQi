@@ -9,12 +9,14 @@ public:
     ~ChessBoard();
     void initBoard();
     void initGlobalChessInfo();
+    void clearGlobalChessInfo();
     int updateMoveMap(Position pos, bitset<90> &map);
     bool moveChess(Position from, Position to);
     uint8_t getFlexibility(Position pos);
 
 public:
     Chess board[BOARD_ROW_MAX][BOARD_COL_MAX];
+    ChessStep lastStep;
 private:
     static uint8_t chessInitPos[BOARD_ROW_MAX][BOARD_COL_MAX];
     static uint8_t chessInitFlex[CHESSTYPE_COUNT];

@@ -19,7 +19,6 @@ void ChessBoard::initBoard()
             if (chessInitPos[i][j])
             {
                 board[i][j].type = chessInitPos[i][j];
-                board[i][j].info = new ChessInfo;
                 board[i][j].state = j > 5 ? CHESS_COLOR_RED : CHESS_COLOR_BLACK;
             }
         }
@@ -34,8 +33,24 @@ void ChessBoard::initGlobalChessInfo()
         {
             if (board[i][j].type)
             {
+                board[i][j].info = new ChessInfo;
                 updateMoveMap(Position{ i,j }, board[i][j].info->moveMap);
                 board[i][j].info->flex = getFlexibility(Position{ i,j });
+            }
+        }
+    }
+}
+
+void ChessBoard::clearGlobalChessInfo()
+{
+    for (int i = 0; i < BOARD_ROW_MAX; ++i)
+    {
+        for (int j = 0; j < BOARD_COL_MAX; ++j)
+        {
+            if (board[i][j].info)
+            {
+                delete board[i][j].info;
+                board[i][j].info = NULL;
             }
         }
     }
