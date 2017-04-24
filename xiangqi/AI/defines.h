@@ -68,6 +68,15 @@ struct Position
         }
         return false;
     }
+
+    bool inRectangle(Position low, Position high) const
+    {
+        if (high.row > 9 || low.row < 7 || low.col < 3 || high.col > 5)
+        {
+            return false;
+        }
+        return true;
+    }
 };
 
 Position operator+(const Position &a,const Position &b)

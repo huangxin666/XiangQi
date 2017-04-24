@@ -64,37 +64,92 @@ int ChessBoard::updateMoveMap(Position pos, bitset<90> &map)
     {
         return 0;
     }
-    Position temp;
+    Position temp,temp2;
     switch (board[pos.row][pos.col].type)
     {
     case CHESSTYPE_KING:
         for (int i = 0; i < 4; ++i)
         {
             temp = pos + direction_king_chariot_connon[i];
-            if (temp.checkRange() && board[temp.row][temp.col].state != state)
+            if (board[temp.row][temp.col].state == CHESS_COLOR_RED)//下方
             {
-                map[temp.to_index()] = 1;
+                if (temp.row > 9 || temp.row < 7 || temp.col < 3 || temp.col > 5)
+                {
+                    continue;//不在范围内
+                }
             }
+            else//上方
+            {
+                if (temp.row > 2 || temp.row < 0 || temp.col < 3 || temp.col > 5)
+                {
+                    continue;//不在范围内
+                }
+            }
+            if (/*temp.checkRange() &&*/ board[temp.row][temp.col].state == state)//有己方棋子
+            {
+                continue;
+            }
+            map[temp.to_index()] = 1;
         }
         break;
     case CHESSTYPE_ADVISER://士
         for (int i = 0; i < 4; ++i)
         {
             temp = pos + direction_adviser[i];
-            if (temp.checkRange() && board[temp.row][temp.col].state != state)
+
+            if (board[temp.row][temp.col].state == CHESS_COLOR_RED)//下方
             {
-                map[temp.to_index()] = 1;
+                if (temp.row > 9 || temp.row < 7 || temp.col < 3 || temp.col > 5)
+                {
+                    continue;//不在范围内
+                }
             }
+            else//上方
+            {
+                if (temp.row > 2 || temp.row < 0 || temp.col < 3 || temp.col > 5)
+                {
+                    continue;//不在范围内
+                }
+            }
+
+            if (/*temp.checkRange() &&*/ board[temp.row][temp.col].state == state)//有己方棋子
+            {
+                continue;
+            }
+            map[temp.to_index()] = 1;
         }
         break;
     case CHESSTYPE_ELEPHANT:
         for (int i = 0; i < 4; ++i)
         {
             temp = pos + direction_elephant[i];
-            if (temp.checkRange() && board[temp.row][temp.col].state != state)
+
+            if (board[temp.row][temp.col].state == CHESS_COLOR_RED)//下方
             {
-                map[temp.to_index()] = 1;
+                if (temp.row > 9 || temp.row < 5 || temp.col < 0 || temp.col > 8)
+                {
+                    continue;//不在范围内
+                }
             }
+            else//上方
+            {
+                if (temp.row > 4 || temp.row < 0 || temp.col < 0 || temp.col > 8)
+                {
+                    continue;//不在范围内
+                }
+            }
+
+            temp2 = pos + direction_adviser[i];
+            if (board[temp2.row][temp2.col].type != CHESSTYPE_EMPTY)//象心被堵
+            {
+                continue;
+            }
+
+            if (/*temp.checkRange() &&*/ board[temp.row][temp.col].state == state)//有己方棋子
+            {
+                continue;
+            }
+            map[temp.to_index()] = 1;
         }
         break;
     case CHESSTYPE_CHARIOT://车
@@ -122,6 +177,12 @@ int ChessBoard::updateMoveMap(Position pos, bitset<90> &map)
     case CHESSTYPE_HORSE:
         for (int i = 0; i < 8; ++i)
         {
+            temp2 = pos + direction_king_chariot_connon[i / 2];
+            if (board[temp2.row][temp2.col].type != CHESSTYPE_EMPTY)//蹩脚马
+            {
+                ++i;//一次跳两个
+                continue;
+            }
             temp = pos + direction_horse[i];
             if (temp.checkRange() && board[temp.row][temp.col].state != state)
             {
@@ -292,12 +353,12 @@ Position ChessBoard::direction_elephant[4] =
 };
 Position ChessBoard::direction_horse[8] = 
 {
-    { 2,1 },
-    { -2,-1 },
-    { -2,1 },
-    { 2,-1 },
     { 1,2 },
-    { -1,-2 },
     { -1,2 },
-    { 1,-2 }
+    { 1,-2 },
+    { -1,-2 },
+    { -2,1 },
+    { -2,-1 },
+    { 2,1 },
+    { 2,-1 }
 };
